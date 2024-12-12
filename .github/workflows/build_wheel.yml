@@ -81,4 +81,4 @@ jobs:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: "${{ env.RELEASE_TAG }}"
           prerelease: false
-          files: dist/osstorchconnector*
+          files: dist/oss*.whl
