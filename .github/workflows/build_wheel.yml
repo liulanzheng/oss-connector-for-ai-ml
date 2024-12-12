@@ -54,7 +54,7 @@ jobs:
     - name: Upload
       uses: actions/upload-artifact@v4
       with:
-        name: dist
+        name: dist-${{ strategy.job-index }}
         path: dist/oss*.whl
 
   release:
@@ -64,15 +64,17 @@ jobs:
     steps:
       - name: Download builds and release notes
         uses: actions/download-artifact@v4
+        with:
+          pattern: dist-*
+          merge-multiple: true
+          path: dist
       - name: Display downloaded files
         shell: bash
         run: |
           ls -l dist
           REFS=${{ github.ref }}
           REFS=${REFS#refs/tags/}
-          PACKAGE_NAME=${REFS%%/*}
-          RELEASE_VERSION="${REFS#*/v}"
-          echo "RELEASE_TAG=${PACKAGE_NAME}-${RELEASE_VERSION}" >> $GITHUB_ENV
+          echo "RELEASE_TAG=${REFS}" >> $GITHUB_ENV
       - name: Create Release
         uses: "marvinpinto/action-automatic-releases@latest"
         with:
