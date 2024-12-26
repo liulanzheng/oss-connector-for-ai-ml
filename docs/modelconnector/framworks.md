@@ -56,9 +56,11 @@ total 136G
 -rw-r--r-- 1 root root 2.7M Sep 25 15:43 vocab.json
 ```
 
+Another common scenario is like the Stable Diffusion web UI, where a large number of models are stored in one or several folders, and there might be situations where models need to be switched during use.
+
 The OssModelConnector offers a method to directly pass in an OSS directory to the inference frameworks and read the models directly from OSS.
 
-Compared to downloading before loading to framworks, the OssModelConnector allows for simultaneous downloading and loading, achieving faster model deployment speeds.
+Compared to the FUSE-based mounting solution, OssModelConnector has a significant performance advantage. Compared to downloading before loading to framworks, the OssModelConnector allows for simultaneous downloading and loading, achieving faster model deployment speeds.
 
 ## Usage
 
@@ -124,3 +126,31 @@ connector.close()
 
 # do inference
 ```
+
+# Stable Diffusion web UI
+
+Edit launch.py to initalize and configure OssModelConnector.
+
+```python
+from modules import launch_utils
+
+import oss2
+from oss2.credentials import EnvironmentVariableCredentialsProvider
+from ossmodelconnector import OssModelConnector
+
+...
+
+def main():
+    ...
+
+
+if __name__ == "__main__":
+    connector = OssModelConnector(endpoint='oss-cn-beijing-internal.aliyuncs.com',
+                                  cred_provider=EnvironmentVariableCredentialsProvider(),
+                                  config_path='/etc/connector.json')
+    connector.prepare_directory('oss://ai-testset/Stable-diffusion/', '/root/stable-diffusion-webui/models/Stable-diffusion')
+
+    main()
+```
+
+Currently, prepare_directory() loads all models into memory, which can put pressure on memory and even cause crashes in scenarios with a large number of models. In the future, prepare_directory() will support lazy loading, downloading models only when switching to or open them, and it will include a garbage collection feature to release memory for unused models after a specified time.

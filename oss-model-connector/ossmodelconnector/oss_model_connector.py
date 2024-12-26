@@ -107,24 +107,25 @@ class OssModelConnector:
         return self._connector.open(uri, True, True, binary)
 
     def _from_file_helper(self, filename, shared, nbytes):
-        file = self._connector.open(filename, True, True)
-        return UntypedStorageEx(file, nbytes)
-
-    def _connector_open(self, *args, **kwargs):
-        filename = args[0]
-        if isinstance(filename, pathlib.Path):
-            filename = str(filename)
-        open_mode = 'r' if len(args) == 1 else args[1]
         if self._hook_dir and filename.startswith(self._hook_dir):
+            file = self._connector.open(filename, True, True)
+            return UntypedStorageEx(file, nbytes)
+        else:
+            return self._origin_from_file(filename, shared, nbytes)
+
+    def _connector_open(self, file, mode='r', buffering=-1, encoding=None, errors=None, newline=None, closefd=True, opener=None):
+        if isinstance(file, pathlib.Path):
+            file = str(file)
+        if self._hook_dir and file.startswith(self._hook_dir):
             binary = False
-            if open_mode == "rb":
+            if 'b' in mode:
                 binary = True
             try:
-                return self.open(filename, binary)
+                return self.open(file, binary)
             except:
-                return self._origin_open(*args, **kwargs)
+                return self._origin_open(file, mode, buffering, encoding, errors, newline, closefd, opener)
         else:
-            return self._origin_open(*args, **kwargs)
+            return self._origin_open(file, mode, buffering, encoding, errors, newline, closefd, opener)
 
     def prepare_directory(self, uri: str, dir: str, libc_hook: bool = False):
         """
