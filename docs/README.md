@@ -8,7 +8,7 @@ Currently, the OSS connector is composed of two libraries: OSS Model Connector a
 
 - [OSS Model Connector](https://aliyun.github.io/oss-connector-for-ai-ml/#/modelconnector/introduction) focuses on AI inference scenarios, loading large model files from OSS into local AI inference frameworks.
 
-The core part of is OSS Connector for AI/ML is implemented in C++ using [PhotonLibOS](https://github.com/alibaba/PhotonLibOS). This repository only contains the code of Python.
+The core component of the OSS Connector for AI/ML is implemented in C++ using [PhotonLibOS](https://github.com/alibaba/PhotonLibOS) and is provided as dynamic link libraries within wheel packages. This repository only contains the code of Python.
 
 
 ## License

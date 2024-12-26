@@ -22,8 +22,8 @@ Users can create an OssModelConnector in Python and call its provided methods to
 
     ```python
     connector = OssModelConnector(endpoint=ENDPOINT,
-                              cred_provider=EnvironmentVariableCredentialsProvider(),
-                              config_path='/tmp/config.json')
+                                  cred_provider=EnvironmentVariableCredentialsProvider(),
+                                  config_path='/tmp/config.json')
     ```
 
 - List objects
