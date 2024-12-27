@@ -116,7 +116,8 @@ class OssModelConnector:
     def _connector_open(self, file, mode='r', buffering=-1, encoding=None, errors=None, newline=None, closefd=True, opener=None):
         if isinstance(file, pathlib.Path):
             file = str(file)
-        if self._hook_dir and file.startswith(self._hook_dir):
+
+        if self._hook_dir and isinstance(file, str) and file.startswith(self._hook_dir):
             binary = False
             if 'b' in mode:
                 binary = True
