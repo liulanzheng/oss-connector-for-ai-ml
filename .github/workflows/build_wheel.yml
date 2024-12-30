@@ -55,7 +55,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: dist-${{ strategy.job-index }}
-        path: dist/oss*.whl
+        path: dist/oss*
 
   release:
     name: "Tagged Release"
@@ -81,4 +81,4 @@ jobs:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: "${{ env.RELEASE_TAG }}"
           prerelease: false
-          files: dist/oss*.whl
+          files: dist/oss*
