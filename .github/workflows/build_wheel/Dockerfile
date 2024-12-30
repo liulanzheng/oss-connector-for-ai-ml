@@ -18,7 +18,8 @@ RUN export PATH="/opt/python/${PY_ABI_TAG}/bin:$PATH" && \
     echo -e "[build_ext]\nlibrary_path=${libconnector}" > setup.cfg && \
     cat setup.cfg && \
     python3 -u setup.py bdist_wheel && \
-    auditwheel repair dist/oss*.whl -w repaired_wheel
+    auditwheel repair dist/oss*.whl -w repaired_wheel && \
+    find . -type f -name "oss-connector-lib-*" -exec cp {} repaired_wheel/ \;
 
 FROM scratch
-COPY --from=builder /libconnector/repaired_wheel/oss*.whl /
+COPY --from=builder /libconnector/repaired_wheel/oss* /
