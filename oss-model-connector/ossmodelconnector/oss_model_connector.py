@@ -79,19 +79,21 @@ class OssModelConnector:
         """
         Close the connector and release resources.
         """
-        if self._hook_dir:
-            self._hook_dir = ''
+        try:
+            if self._hook_dir:
+                self._hook_dir = ''
 
-        if builtins.open == self._connector_open:
-            builtins.open = self._origin_open
-            torch.UntypedStorage.from_file = self._origin_from_file
+            if builtins.open == self._connector_open:
+                builtins.open = self._origin_open
 
-        if torch.UntypedStorage.from_file == self._from_file_helper:
-            torch.UntypedStorage.from_file = self._origin_from_file
+            if torch.UntypedStorage.from_file == self._from_file_helper:
+                torch.UntypedStorage.from_file = self._origin_from_file
 
-        if self._real_connector is not None:
-            del self._real_connector
-            self._real_connector = None
+            if self._real_connector is not None:
+                del self._real_connector
+                self._real_connector = None
+        except:
+            print("exception in close, ignore")
 
     def open(self, uri, binary = True):
         """
@@ -116,8 +118,7 @@ class OssModelConnector:
     def _connector_open(self, file, mode='r', buffering=-1, encoding=None, errors=None, newline=None, closefd=True, opener=None):
         if isinstance(file, pathlib.Path):
             file = str(file)
-
-        if self._hook_dir and isinstance(file, str) and file.startswith(self._hook_dir):
+        if self._hook_dir and file.startswith(self._hook_dir):
             binary = False
             if 'b' in mode:
                 binary = True
