@@ -2,7 +2,7 @@
 
 ## Overview
 
-Mainstream AI inference frameworks, such as vllm and transformers, load models from a local directory. The number of files in the model directory is not large, comprising several small files and multiple larger model files. For example, the directory below shows the model directory for Qwen2.50-72B, including 37 large safetensors files and several small files.
+Mainstream AI inference frameworks, such as vllm and transformers, load models from a local directory. The number of files in the model directory is not large, comprising several small files and multiple larger model files. For example, the directory below shows the model directory for Qwen2.5-72B, including 37 large safetensors files and several small files.
 
 ```bash
 # ll -lh /root/Qwen2.5-72B

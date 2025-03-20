@@ -9,12 +9,14 @@ In current, memory of computing nodes for AI inference are generally large. The 
 The primary function of the OSS Model Connector is to fully leverage local memory to accelerate the process of downloading models from OSS.
 In our testing environment, the download speed can exceed 15GB/s, approaching 20GB/s.
 
-The OSS Model Connector mainly offers two usage methods.
+The OSS Model Connector mainly offers 3 usage methods.
 
-The first method is using the Python interface, allowing users to open OSS objects and read their contents through list stream api.
+- The first method is using the Python interface, allowing users to open OSS objects and read their contents through list stream api.
 We also provide an interface for listing objects on OSS, as well as an implementation call 'fast list', which can complete the listing of a million objects within several seconds.
 
-The second method is utilizing the libraries for loading models in inference frameworks such as transformer or vllm. This method enables the integration of model file downloading and loading, optimizing the model deployment time.
+- The second method is utilizing the libraries for loading models in inference frameworks such as transformer or vllm. This method enables the integration of model file downloading and loading, optimizing the model deployment time.
+
+- The third method is to use LD_PRELOAD to address scenarios that the second method cannot handle, such as multi-process environments. The advantage of this approach is that it does not require modifying the code, configuration alone is sufficient.
 
 ## Features
 
