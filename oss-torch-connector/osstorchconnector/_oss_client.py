@@ -51,21 +51,30 @@ class OssClient:
     def put_object(self, bucket: str, key: str) -> DataObject:
         return self._client.open_wo(bucket, key)
 
+    def head_object(self, bucket: str, key: str) -> DataObject:
+        return self._client.stat(bucket, key)
+
+    def rename_object(self, bucket: str, key: str, new_bucket: str, new_key: str) -> DataObject:
+        return self._client.rename(bucket, key, new_bucket, new_key)
+
+    def remove_object(self, bucket: str, key: str):
+        return self._client.remove(bucket, key)
+
     def list_objects(self, bucket: str, prefix: str = "") -> Iterator[DataObject]:
         log.debug("OssClient list_objects")
         return self._client.list(bucket, prefix)
 
-    def list_objects_with_preload(self, bucket: str, prefix: str = "") -> Iterator[DataObject]:
+    def list_objects_with_preload(self, bucket: str, prefix: str = "", include_errors: bool = False) -> Iterator[DataObject]:
         log.debug("OssClient list_objects_with_preload")
-        return self._client.list_with_preload(bucket, prefix)
+        return self._client.list_with_preload(bucket, prefix, include_errors)
 
     def list_objects_from_uris(self, object_uris: Iterable, prefetch: bool = False, include_errors: bool = False) -> Iterator[DataObject]:
         log.debug("OssClient list_objects_from_uris")
         return self._client.list_from_uris(object_uris, prefetch, include_errors)
 
-    def list_objects_from_uris_with_preload(self, object_uris: Iterable) -> Iterator[DataObject]:
+    def list_objects_from_uris_with_preload(self, object_uris: Iterable, include_errors: bool = False) -> Iterator[DataObject]:
         log.debug("OssClient list_objects_from_uris_with_preload")
-        return self._client.list_from_uris_with_preload(object_uris)
+        return self._client.list_from_uris_with_preload(object_uris, include_errors)
 
     def list_objects_from_tar(self, bucket: str, tar_key: str, index_key: str, chunks: Iterable = [], sizes: Iterable = [],
                               prefetch: bool = False, include_errors: bool = False) -> Iterator[DataObject]:
