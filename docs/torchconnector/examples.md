@@ -274,3 +274,43 @@ with checkpoint.writer(CHECKPOINT_WRITE_URI) as writer:
 ```
 
 OssCheckpoint can be used for checkpoints, and also for high-speed uploading and downloading of arbitrary objects. In our testing environment, the download speed can exceed 15GB/s.
+
+## Distributed checkpoints
+
+OSS connector for AI/ML supports [PyTorch distributed checkpoints(DCP)](https://docs.pytorch.org/docs/stable/distributed.checkpoint.html) since v1.2.0rc2.
+
+```py
+import torchvision
+import torch.distributed.checkpoint as DCP
+from osstorchconnector import OssFileSystem
+import torch
+
+ENDPOINT = "http://oss-cn-beijing-internal.aliyuncs.com"
+CONFIG_PATH = "/etc/oss-connector/config.json"
+CRED_PATH = "/root/.alibabacloud/credentials"
+OSS_URI = "oss://ossconnectorbucket/dcp-checkpoint-resnet18"
+
+model = torchvision.models.resnet18()
+
+# write to OSS
+fs = OssFileSystem(endpoint=ENDPOINT, cred_path=CRED_PATH, config_path=CONFIG_PATH)
+oss_storage_writer = fs.writer(OSS_URI)
+# DCP.save or DCP.async_save
+checkpoint_future = DCP.async_save(
+    state_dict=model.state_dict(),
+    storage_writer=oss_storage_writer,
+)
+checkpoint_future.result()
+
+
+# load from OSS
+loaded_state_dict = {
+    key: torch.zeros_like(value) for key, value in model.state_dict().items()
+}
+oss_storage_reader = fs.reader(OSS_URI)
+DCP.load(
+    loaded_state_dict,
+    storage_reader=oss_storage_reader,
+)
+
+```
