@@ -1,6 +1,7 @@
 import os
 from typing import Iterator, Iterable, Any
 import logging
+import threading
 
 log = logging.getLogger(__name__)
 
@@ -30,15 +31,18 @@ class OssClient:
         self._total = total
         self._cred_provider = cred_provider
 
+    _lock = threading.Lock()
     @property
     def _client(self) -> DataSet:
-        if self._client_pid is None or self._client_pid != os.getpid():
-            # does OSS client survive forking ? NO
-            if self._client_pid != os.getpid() and self._real_client is not None:
-                log.info("OssClient delete dataset")
-                # del self._real_client
-            self._client_pid = os.getpid()
-            self._real_client = self._client_builder()
+        with OssClient._lock:
+            if self._client_pid is None or self._client_pid != os.getpid() :
+                # does OSS client survive forking ? NO
+                if self._client_pid != os.getpid() and self._real_client is not None:
+                    log.info("OssClient delete dataset")
+                    # del self._real_client
+                self._client_pid = os.getpid()
+                self._real_client = self._client_builder()
+
         return self._real_client
 
     def _client_builder(self) -> DataSet:

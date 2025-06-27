@@ -173,8 +173,8 @@ class OssFileSystem(FileSystemBase):
             return False
         return True
 
-    def writer(self, path : str) -> OssStorageWriter:
-        return OssStorageWriter(self, path)
+    def writer(self, path : str, **kwargs) -> OssStorageWriter:
+        return OssStorageWriter(self, path, **kwargs)
 
     def reader(self, path : str) -> OssStorageReader:
         return OssStorageReader(self, path)
