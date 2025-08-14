@@ -19,7 +19,7 @@ For details, please refer to [ossconnector.github.io](https://ossconnector.githu
 
 ## Related
 
-[OSS Connector for AI/ML 中文文档](https://help.aliyun.com/zh/oss/developer-reference/oss-connector-for-ai-ml)
+[OSS Connector for AI/ML 中文文档](https://help.aliyun.com/zh/oss/developer-reference/oss-connector-for-al-ml/)
 
 ## License
 
