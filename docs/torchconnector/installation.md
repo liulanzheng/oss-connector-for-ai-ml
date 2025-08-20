@@ -4,11 +4,11 @@
 
 - OS: Linux x86-64
 - glibc: >= 2.17
-- Python: 3.8 - 3.12
+- Python: 3.8 - 3.13
 - PyTorch:
     - `>= 2.0` (v1.0.0rc1-v1.1.0)
     - `>= 2.3` (since v1.2.0rc1)
-- Kernel module: userfaultfd (for checkpoint)
+- Kernel module: userfaultfd (for checkpoint/DCP/safetensor)
 
 ## Install
 
@@ -32,4 +32,4 @@ pip install osstorchconnector-1.1.0rc1-cp311-cp311-manylinux_2_17_x86_64.manylin
 
 ### Additional configuration for Docker
 
-To use checkpoint-related features within Docker, the container must be run with `--privilege`. This is due to our reliance on userfaultfd to accelerate the reading of checkpoints.
+To use checkpoint-related features within Docker, the container must be run with `--privilege`. This is due to our reliance on userfaultfd to accelerate the reading of checkpoints/DCP/safetensors.

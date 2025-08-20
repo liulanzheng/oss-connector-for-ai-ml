@@ -314,3 +314,34 @@ DCP.load(
 )
 
 ```
+
+## Safetensor
+
+OSS connector for AI/ML supports saving/loading safetensors since v1.2.0rc6.
+
+```py
+import torch
+from osstorchconnector import OssSafetensor
+
+ENDPOINT = "http://oss-cn-beijing-internal.aliyuncs.com"
+CONFIG_PATH = "/etc/oss-connector/config.json"
+CRED_PATH = "/root/.alibabacloud/credentials"
+OSS_URI = "oss://ossconnectorbucket/safetensors/model.safetensors"
+
+sfts = OssSafetensor(endpoint=HTTPS_ENDPOINT, cred_path=CRED_PATH, config_path=CONFIG_PATH)
+
+# save tensors to safetensor file on OSS
+tensors = {"embedding": torch.rand((512, 1024)), "attention": torch.rand((256, 256))}
+metadata = {"a": "a", "b": "b"}
+sfts.save_file(tensors, OSS_URI, metadata)
+
+# load safetensor file from OSS
+loaded_tensors = sfts.load_file(OSS_URI, device="cpu")
+
+# or load tensors by safe_open
+with sfts.safe_open(OSS_URI, device ="cpu") as f:
+    metadata = f.metadata() # get metadata
+    for key in f.keys(): # read tensors by keys
+        tensor = f.get_tensor(key)
+
+```
