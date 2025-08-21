@@ -33,3 +33,7 @@ Compared to other solutions for loading OSS data, the OSS Model Connector is mor
 - High-performance
 
     Thanks to the simpler I/O path and efficient C++ implementation, the OSS Model Connector can achieve better performance. The C++ code is implemented based on the high-performance [PhotonLibOS](https://github.com/alibaba/PhotonLibOS), which includes features such as coroutines and HTTP client. In our testing environment, the model loading speed can exceed 15GB/s, approaching 20GB/s, achieve the maximum bandwidth of the OSS server configuration.
+
+## Related
+
+[中文文档: 使用OSS Connector for AI/ML提升模型部署效率](https://help.aliyun.com/zh/oss/developer-reference/use-oss-connector-for-ai-ml-to-accelerate-model-deployment)

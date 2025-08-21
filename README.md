@@ -8,7 +8,7 @@ OSS Connector for AI/ML contains some high-performance Python libraries specific
 
 Currently, the OSS connector is composed of two libraries: OSS Model Connector and OSS Torch Connector.
 
-- [OSS Torch Connector](https://aliyun.github.io/oss-connector-for-ai-ml/#/torchconnector/introduction) is dedicated to AI training scenarios, including loading [datasets](https://pytorch.org/docs/stable/data.html#dataset-types) from OSS and loading/saving checkpoints from/to OSS.
+- [OSS Torch Connector](https://aliyun.github.io/oss-connector-for-ai-ml/#/torchconnector/introduction) is dedicated to AI training scenarios, including loading [datasets](https://pytorch.org/docs/stable/data.html#dataset-types) from OSS and loading/saving checkpoints/DCP/safetensors from/to OSS.
 
 - [OSS Model Connector](https://aliyun.github.io/oss-connector-for-ai-ml/#/modelconnector/introduction) focuses on AI inference scenarios, loading large model files from OSS into local AI inference frameworks.
 
