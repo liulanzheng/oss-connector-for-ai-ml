@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "osstorchconnector"
 version = "1.0.0rc1"
 description = "OSS connector for AI/ML"
-requires-python = ">=3.8,<3.13"
+requires-python = ">=3.8,<3.14"
 readme = "README.md"
 dependencies = [
     "torch >= 2.0",
@@ -24,6 +24,7 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
 ]
 
 [tool.setuptools.packages.find]
